@@ -33,8 +33,7 @@ class PessoaController
 
     public function getDiagnosticoToString(string $separator = '<br>'): string
     {
-        $diagnosticoFinalStr = "<b>{$this->getStatus()}</b>$separator";
-        $diagnosticoFinalStr .= $this->pessoa->getFormatedPersonalInfoStr();
+        $diagnosticoFinalStr = $this->pessoa->getFormatedPersonalInfoStr();
 
         foreach ($this->diagnostico as $verificacao => $diagnostico) {
             $diagnosticoFinalStr .= "$separator $separator<b>Diagnóstico $verificacao:</b>";
@@ -53,7 +52,7 @@ class PessoaController
 
     public function getStatus(): string
     {
-        return strtoupper($this->status);
+        return strtolower($this->status);
     }
 
     private function idadeDiagnostico(): array

@@ -85,7 +85,7 @@ $cards = [
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><?= $candidato['model']->getFirstName() ?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Candidato</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Candidato <?= $candidato['controller']->getStatus() ?></h6>
                     <p class="card-text" style="text-align: left;"><?= $candidato['controller']->getDiagnosticoToString(
                         ); ?></p>
                 </div>
