@@ -137,6 +137,7 @@ class Pessoa
 
         $personalData = [
             'Nome completo' => $this->getNome(),
+            'Gênero' => $this->getGenero(),
             'Idade' => $this->getIdade() . ' anos',
             'Tipo Sanguíneo' => $this->getTipoSanguineo(),
             'Peso' => $this->getPesoKg() . 'kg',
