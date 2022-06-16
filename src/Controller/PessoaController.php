@@ -11,7 +11,7 @@ require_once "src{$barra}Helper{$barra}IMCConstantes.php";
 class PessoaController
 {
     private Pessoa $pessoa;
-    private string $status;
+    private string $status = self::APROVADO;
     private array $diagnostico;
 
     public const APROVADO = 'Aprovado';
@@ -33,11 +33,12 @@ class PessoaController
 
     public function getDiagnosticoToString(string $separator = '<br>'): string
     {
-        $diagnosticoFinalStr = $this->pessoa->getFormatedPersonalInfoStr();
+        $diagnosticoFinalStr = "<b>{$this->getStatus()}</b>$separator";
+        $diagnosticoFinalStr .= $this->pessoa->getFormatedPersonalInfoStr();
 
         foreach ($this->diagnostico as $verificacao => $diagnostico) {
             $diagnosticoFinalStr .= "$separator $separator<b>Diagnóstico $verificacao:</b>";
-            foreach ($diagnostico as $key => $value){
+            foreach ($diagnostico as $key => $value) {
                 $diagnosticoFinalStr .= "$separator<b>$key:</b> $value";
             }
         }
@@ -45,18 +46,25 @@ class PessoaController
         return $diagnosticoFinalStr;
     }
 
+    public function setStatus(string $status): void
+    {
+        $this->status = ($this->status == self::REPROVADO) ? self::REPROVADO : $status;
+    }
+
     public function getStatus(): string
     {
-        return $this->status;
+        return strtoupper($this->status);
     }
 
     private function idadeDiagnostico(): array
     {
         $idade = $this->pessoa->getIdade();
+        $conclusaoIdade = $idade >= 18 ? self::APROVADO : self::REPROVADO;
+        $this->setStatus($conclusaoIdade);
 
         return [
             'Idade' => $idade,
-            'Conclusão' => $idade >= 18 ? self::APROVADO : self::REPROVADO
+            'Conclusão' => $conclusaoIdade
         ];
     }
 
@@ -75,6 +83,8 @@ class PessoaController
         ) {
             $conclusaoImc = self::REPROVADO;
         }
+
+        $this->setStatus($conclusaoImc);
 
         return [
             'IMC' => $imc,
@@ -95,6 +105,8 @@ class PessoaController
         if (in_array($tipoSanguineoAtual, $compararPodeReceber)) {
             $conclusaoTipoSanguineo = self::APROVADO;
         }
+
+        $this->setStatus($conclusaoTipoSanguineo);
 
         return [
             'Tipo sanguíneo a receber' => $tipoSanguineoReceber,
