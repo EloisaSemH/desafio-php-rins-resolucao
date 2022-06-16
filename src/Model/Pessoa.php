@@ -131,9 +131,9 @@ class Pessoa
         return array_shift($nameArray);
     }
 
-    public function getFormatedPersonalInfoStr(string $tipoPessoa = 'Candidato', string $separator = '<br>'): string
+    public function getFormatedPersonalInfoStr(string $separator = '<br>'): string
     {
-        $personalDataStr = "<b>$tipoPessoa {$this->getFirstName()}</b>";
+        $personalDataStr = '';
 
         $personalData = [
             'Nome completo' => $this->getNome(),
